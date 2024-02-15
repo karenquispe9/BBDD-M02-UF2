@@ -1,0 +1,167 @@
+CREATE DATA BASE s3_c2_ej4
+CREATE TABLE IF NOT EXISTS suppliers (
+  id_suppliers INT AUTO_INCREMENT NOT NULL,
+  company_name VARCHAR (50),
+  contact_titel VARCHAR(50),
+  adress VARCHAR(50),
+  city VARCHAR (50),
+  region VARCAHR(50),
+  postal_code INT,
+  country VARCHAR(50),
+  phone INT,
+  fax INT,
+  home_page VARCAHR (50),
+  PRIMARY KEY (id_suppliers)
+   
+);
+
+CREATE TABLE IF NOT EXISTS products (
+    id_product INT AUTO_INCREMENT NOT NULL,
+    product_name VARCHAR(50),
+    id_supplier INT,
+    id_category INT,
+    quantity_per_unit INT,
+    unit_price DECIMAL,
+    units_stock INT,
+    units_on_order INT,
+    reorder_level VARCHAR(50),
+    discuntinued BOOLEAN,
+    id_supplier INT,
+    id_category INT,
+    PRIMARY KEY (id_product),
+    FOREIGN KEY (id_supplier) REFERENCES suppliers (id_suppliers) ON UPDATE CASCADE ON DELETE CASCADE,
+    FOREIGN KEY (id_category) REFERENCES categories (id_category) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS categories (
+    id_category INT AUTO_INCREMENT NOT NULL,
+    category_name VARCHAR(50),
+    description VARCHAR (50),
+    picture VARCHAR (50),
+    PRIMARY KEY (id_category)
+);
+
+CREATE TABLE IF NOT EXISTS order_details (
+    id_order INT AUTO_INCREMENT NOT NULL,
+    id_product INT,
+    unit_price DECIMAL,
+    quantity INT,
+    discount INT,
+    PRIMARY KEY ( id_order, id_product),
+    FOREIGN KEY (id_order) REFERENCES order (id_order) ON UPDATE CASCADE ON DELETE CASCADE,
+    FOREIGN KEY (id_product) REFERENCES products (id_product) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS shippers (
+    id_shipper INT AUTO_INCREMENT NOT NULL,
+    company_name VARCHAR (50),
+    phonr INT,
+    FOREIGN KEY (id_shipper)
+);
+
+CREATE TABLE IF NOT EXISTS orders (
+    id_order INT AUTO_INCREMENT NOT NULL,
+    id_costumer INT,
+    id_employee INT,
+    order_date DATE,
+    require_date DATE,
+    shipped_date DATE,
+    shipper_via VARCHAR (50),
+    freight INT,
+    ship_name VARCHAR(50),
+    ship_address VARCHAR (50),
+    ship_city VARCHAR (50),
+    ship_region VARCHAR (50),
+    ship_postal_code VARCHAR (50),
+    ship_country VARCHAR(50),
+    PRIMARY KEY (id_order),
+    FOREIGN KEY (id_costumer) REFERENCES costumers (id_costumers),
+    FOREIGN KEY (id_employee) REFERENCES employee (id_employee),
+    FOREIGN KEY (ship_address) REFERENCES costumers (id_costumers),
+
+);
+
+CREATE TABLE IF NOT EXISTS region (
+    id_region INT AUTO_INCREMENT NOT NULL,
+    region_description VARCHAR (50),
+    PRIMARY KEY (id_region)
+);
+
+CREATE TABLE IF NOT EXISTS terriotories (
+    id_territory INT AUTO_INCREMENT NOT NULL,
+    territoriy_description VARCHAR(50),
+    id_region INT,
+    PRIMARY KEY (id_territory),
+    FOREIGN KEY (id_region) REFERENCES REGION (id_region)
+
+);
+
+
+CREATE TABLE IF NOT EXISTS employee (
+    id_employee INT AUTO_INCREMENT NOT NULL,
+    last_name VARCHAR(50),
+    first_name VARCHAR (50),
+    title VARCHAR (50),
+    title_courtesy VARCHAR (50),
+    birth_date DATE,
+    hire_date DATE,
+    adress VARCHAR (50),
+    city VARCHAR (50),
+    region VARCHAR (50),
+    postal_code INT,
+    country VARCHAR (50),
+    home_page VARCHAR (50),
+    extensions VARCHAR (50),
+    photo VARCHAR (50),
+    notes VARCHAR (50),
+    reports_to VARCHAR (50),
+    photo_path VARCHAR (50),
+    PRIMARY KEY (id_employee),
+    FOREIGN KEY (reports_to) REFERENCES employees (id_employee)
+);
+
+CREATE TABLE IF NOT EXISTS employe_territories (
+    id_employee INT,
+    id_territory INT,
+    PRIMARY KEY (id_employee, id_territory),
+    FOREIGN KEY (id_employee) REFERENCES employee (id_employee),
+    FOREIGN KEY (id_territory) REFERENCES terriotories (id_territory)
+);
+
+
+CREATE TABLE IF NOT EXIST costumers (
+    id_costumer INT AUTO_INCREMENT NOT NULL,
+    company_name VARCHAR (50),
+    contact_name VARCHAR (50),
+    contact_table INT,
+    adress VARCHAR (50),
+    city VARCHAR (50),
+    region VARCHAR (50),
+    postal_code INT,
+    country VARCHAR (50),
+    phone INT,
+    fax INT,
+    PRIMARY KEY (id_costumer)
+
+);
+ 
+CREATE TABLE IF NOT EXIST customers_demographics (
+    id_type_costumer INT,
+    customers_desc INT,
+     PRIMARY KEY (id_type_customer )
+);
+
+
+
+CREATE TABLE IF NOT EXIST cust_custDemographics (
+    id_costumer INT,
+    id_type_costumer INT,
+    PRIMARY KEY (id_costumer, id_type_customer ),
+    FOREIGN KEY (id_costumer) REFERENCES costumers (id_costumer),
+    FOREIGN KEY  (id_type_customer) REFERENCES customers_demographics (id_type_customer)
+
+
+);
+
+
+

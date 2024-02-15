@@ -1,0 +1,69 @@
+DATABASE : s3_c1_ej3
+
+ CREATE TABLE usuario (
+  id_usuario INT UNSIGNED AUTO_INCREMENT,
+  dni CHAR (9),
+  email VARCHAR (50),
+  direccio VARCHAR (200),
+  num_targeta INT,
+  PRIMARY KEY (id_usuario)
+);
+
+CREATE TABLE cliente (
+  id_cliente INT UNSIGNED AUTO_INCREMENT,
+  pk_usuario INT UNSIGNED,
+  gusta_electronico BOOLEAN,
+  PRIMARY KEY (id_cliente),
+  FOREIGN KEY (pk_usuario) REFERENCES usuario (id_usuario) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+CREATE TABLE subscritor (
+  id_subscritor INT UNSIGNED AUTO_INCREMENT,
+  pk_usuario INT UNSIGNED,
+  es_asociado BOOLEAN,
+  PRIMARY KEY (id_subscritor),
+  FOREIGN KEY (pk_usuario) REFERENCES usuario (id_usuario) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+DROP TABLE IF EXISTS coleccion;
+CREATE TABLE coleccion(
+	nombre_coleccion VARCHAR(50),
+	ano_inicio INT,
+	ano_fin INT,
+	PRIMARY KEY (nombre_coleccion)
+);
+
+DROP TABLE IF EXISTS entrega;
+CREATE TABLE entrega(
+  fecha_entrega DATE,
+  nombre_coleccion VARCHAR(50),
+  num_pagines INT,
+  PRIMARY KEY (fecha_entega)
+  FOREIGN KEY (nombre_coleccion) REFERENCE coleccion (nombre_coleccion) ON UPDATE CASCADE ON DELETE CASCADE
+
+);
+
+DROP TABLE IF EXISTS regalo;
+CREATE TABLE regalo(
+  id_regalo INT,
+  fecha_entrega DATE,
+  nombre_coleccion VARCHAR(50),
+  peso INT UNSIGNED,
+  PRIMARY KEY (id_regalo, fecha_entrega, combre_coleccion)
+);
+
+DROP TABLE IF EXISTS subscritor_coleccion;
+ CREATE TABLE subscritor_coleccion(
+  id_subscritor INT,
+  nombre_coleccion VARCHAR(50),
+  num_inicio INT,
+  PRIMARY KEY (id_subscritor, nombre_coleccion)
+ );
+
+DROP TABLE IF EXISTS cliente_entrega;
+CREATE TABLE cliente_entrega(
+  id_cliente INT,
+  fecha_entrega DATE,
+  nombre_coleccion VARCHAR(50),
+  PRIMARY KEY (id_cliente, fecha_entrega, nombre_coleccion)
+);

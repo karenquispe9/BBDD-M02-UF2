@@ -1,0 +1,43 @@
+// EJERCICIO  1
+
+DATA BASE: s3_c1_ej1
+CREATE TABLE competicion (
+  nombre_competicion VARCHAR (50), //es varchar  entonces no se pone ni unsigned ni autoincrement
+  nombre_tv VARCHAR (50),
+  PRIMARY KEY (nombre_competicion)
+);
+CREATE TABLE temporada ( 
+    id_temporada INT  AUTO_INCREMENT,  //no se pone unsigned
+    fecha_inicio DATETIME, 
+    fecha_fin DATETIME, 
+    PRIMARY KEY (id_temporada) 
+);
+CREATE TABLE federacion ( 
+    nombre_federacion VARCHAR (50), 
+    fecha_creacion DATETIME, 
+    responsable VARCHAR (50), 
+    PRIMARY KEY (nombre_federacion) 
+);
+CREATE TABLE equipo (
+  nombre_equipo VARCHAR (50), //añadir NOT NULL,
+  ciudad VARCHAR (50), //añadir NOT NULL,
+  presidente VARCHAR (50), //añadir NOT NULL,
+  nombre_federacion VARCHAR (50), //añadir NOT NULL,
+  PRIMARY KEY (nombre_federacion),
+  FOREIGN KEY (nombre_federacion) REFERENCES federacion (nombre_federacio) //añadir  ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+
+//No me deja crear esta tabla, dice que hay un error en el reference de nombre_equipo
+
+CREATE TABLE clasificacion (
+  pk_temporada INT UNSIGNED, //quitar el UNSIGNED porq al arrastrar se quita de la tabla de temporada
+  pk_nombre_competicion VARCHAR (50),
+  pk_nombre_equipo VARCHAR (50),
+  posicion VARCHAR (50), //es INT 
+  PRIMARY KEY (pk_temporada, pk_nombre_competicion, pk_nombre_equipo),
+  FOREIGN KEY (pk_temporada) REFERENCES temporada (id_temporada) //añadir ON UPDATE CASCADE ON DELETE CASCADE,
+  FOREIGN KEY (pk_nombre_competicion) REFERENCES competicion (nombre_competicion) //añadir ON UPDATE CASCADE ON DELETE CASCADE,
+  FOREIGN KEY (pk_nombre_equipo) REFERENCES equipo (nombre_equipo) //añadir ON UPDATE CASCADE ON DELETE CASCADE
+);
+

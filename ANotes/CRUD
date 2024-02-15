@@ -1,0 +1,31 @@
+//EJEMPLO 
+
+CREATE TABLE persona( 
+    id_persona INT UNSIGNED AUTO_INCREMENT, 
+    data_neixement DATE,
+    nom VARCHAR (50), 
+    cognom VARCHAR (50), 
+    PRIMARY KEY (id_persona) 
+    );
+
+CREATE TABLE assignatura(
+    nom_assignatura VARCHAR(50),
+    descripcio TEXT,
+    PRIMARY KEY (nom_assignatura)
+    );
+
+    //siempre mantener el mismo TIPO (varchar (50)) en todas las tablas por logica,
+    AUTO_INCREMENT no se arrastar en una tabla con PK multiple.
+    Se tiene que mantener el domini, tienen que coincidir.  
+    
+CREATE TABLE assignatura_persona(
+    pk_assignatura VARCHAR(50),
+    pk_persona INT UNSIGNED,
+    PRIMARY KEY(pk_assignatura, pk_persona),
+    FOREIGN KEY (pk_assignatura) REFERENCES assignatura(nom_assignatura),
+    FOREIGN KEY (pk_persona) REFERENCES persona(id_persona)
+);
+  
+
+
+ 

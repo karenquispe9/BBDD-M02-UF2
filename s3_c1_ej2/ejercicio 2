@@ -1,0 +1,58 @@
+DATABASE: s3_c1_ej2
+
+CREATE DATABASE IF NOT EXIST s3_c1_ej2
+
+CREATE TABLE persona (
+  num_ss INT UNSIGNED AUTO_INCREMENT, //quitar INT UNSIGNED AUTO_INCREMENT y añadir VARCHAR(50) NOT NULL,
+  nombre VARCHAR (50) NOT NULL, // añadir NOT NULL
+  apellido1 VARCHAR (50) NOT NULL, // añadir NOT NULL
+  apellido2 VARCHAR (50) NOT NULL, // añadir NOT NULL
+  PRIMARY KEY (num_ss)
+ );
+
+ CREATE TABLE equipo(
+ nombre_equipo VARCHAR (50),
+ ano_fundacion INT,
+ presupuesto DECIMAL, // VARCHAR (50)
+ presidente VARCHAR (50),
+ entrenador VARCHAR (50),
+ direccion VARCHAR (50),
+ PRIMARY KEY (nombre_equipo) 
+);
+
+CREATE TABLE arbitro(
+ num_ss_arbitro INT UNSIGNED AUTO_INCREMENT, //VARCHAR (50) CHARACTER SET 'utf8' COLLATE 'utf8_spanish_ci', # Lo ponemos para coincidir con el de persona para poder hacer la FK
+ pk_num_ss INT UNSIGNED, //se  tine que eliminar 
+ num_colegiado INT, //VARCHAR(50)
+ ano_inicio INT,
+ profesion VARCHAR (50),
+ PRIMARY KEY (num_ss_arbitro, pk_num_ss), //pk_num_ss eliminar
+ FOREIGN KEY (pk_num_ss) REFERENCES persona(num_ss)  //FOREIGN KEY (num_ss_arbitro) REFERENCE persona (num_ss) ON UPTADE CASCADE ON DELETE CASCADE
+ //Falta añadir el cascade a la foreign key pk_num_ss
+);
+
+CREATE TABLE jugador(
+  num_ss_jugador INT UNSIGNED AUTO_INCREMENT,
+  pk_num_ss INT UNSIGNED,
+  dorsal VARCHAR (50), //INT 
+  ubicacion VARCHAR (50),
+  ficha DECIMAL,
+  nombre_equipo VARCHAR (50) , 
+  PRIMARY KEY (num_ss_jugador, pk_num_ss), //quitar pk_num_ss
+  FOREIGN KEY (nombre_equipo) REFERENCES equipo (nombre_equipo) ON UPDATE CASCADE ON DELETE CASCADE, 
+  FOREIGN KEY (pk_num_ss) REFERENCES persona (num_ss) //añadir ON UPDATE CASCADE ON DELETE CASCADE
+  //Falta añadir el cascade a la foreign key a pk_num_ss
+
+ );
+
+ CREATE TABLE partido (
+  pk_num_ss_arbitro INT UNSIGNED, // sustituir por VARCHAR(50) CHARACTER SET 'utf8' COLLATE 'utf8_spanish_ci',
+  pk_equipo_local VARCHAR (50),
+  pk_equipo_visitante VARCHAR (50),
+  resultado INT ,
+  fecha DATE, 
+  PRIMARY KEY (pk_num_ss_arbitro, pk_equipo_local, pk_equipo_visitante),
+  FOREIGN KEY (pk_num_ss_arbitro) REFERENCES arbitro (num_ss_arbitro) ON UPDATE CASCADE ON DELETE CASCADE, 
+  FOREIGN KEY (pk_equipo_local) REFERENCES equipo (nombre_equipo) ON UPDATE CASCADE ON DELETE CASCADE,
+    FOREIGN KEY (pk_equipo_visitante) REFERENCES equipo (nombre_equipo) ON UPDATE CASCADE ON DELETE CASCADE
+ );
